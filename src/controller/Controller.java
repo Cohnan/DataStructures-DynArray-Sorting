@@ -1,6 +1,11 @@
 package controller;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
+
+import com.opencsv.CSVReader;
+
 import model.data_structures.*;
 import model.util.Sort;
 import model.vo.VOMovingViolation;
@@ -9,7 +14,12 @@ import view.MovingViolationsManagerView;
 @SuppressWarnings("unused")
 public class Controller {
 
+	public static final String[] movingViolationsFilePaths = new String[] {"data/Moving_Violations_Issued_in_January_2018.csv", "data/Moving_Violations_Issued_in_February_2018.csv", "data/Moving_Violations_Issued_in_March_2018.csv"};
+	
 	private MovingViolationsManagerView view;
+	
+	private IQueue<VOMovingViolation> movingViolationsQueue;
+	private IStack<VOMovingViolation> movingViolationsStack;
 	
 	// TODO Definir las estructuras de datos para cargar las infracciones del periodo definido
 	
@@ -22,7 +32,8 @@ public class Controller {
 	public Controller() {
 		view = new MovingViolationsManagerView();
 		
-		//TODO inicializar las estructuras de datos para la carga de informacion de archivos
+		movingViolationsQueue = null;
+		movingViolationsStack = null;
 	}
 
 	/**
@@ -34,7 +45,64 @@ public class Controller {
 	public int loadMovingViolations() {
 		// TODO Los datos de los archivos deben guardarse en la Estructura de Datos definida
 		
+		CSVReader reader = null;
+		
+		// Contadores de infracciones en cada mes de los archivos a cargar
+		int[] contadores = new int[movingViolationsFilePaths.length];
+		int fileCounter = 0;
+		try {
+			movingViolationsQueue = new Queue<VOMovingViolation>();
+			
+			for (String filePath : movingViolationsFilePaths) {
+				reader = new CSVReader(new FileReader("data/"+filePath));
+				String[] headers = reader.readNext();
+				// Array con la posicion de cada header conocido (e.g. LOCATION) dentro del header del archivo
+				// Esto permite que el archivo tenga otras columnas y se encuentren en otro orden y aun asi
+				// el programa funcione.
+				int[] posiciones = new int[VOMovingViolation.EXPECTEDHEADERS.length];
+				for (int i = 0; i < VOMovingViolation.EXPECTEDHEADERS.length; i++) {
+					posiciones[i] = buscarArray(headers, VOMovingViolation.EXPECTEDHEADERS[i]);
+				}
+				// Carga de las infracciones a la cola, teniendo en cuenta el formato del archivo
+				contadores[fileCounter] = 0;
+			    for (String[] row : reader) {
+			    	movingViolationsQueue.enqueue(new VOMovingViolation(posiciones, row));
+			    	contadores[fileCounter] += 1;
+			    }
+			    fileCounter += 1;
+			}
+			
+			int suma = 0;
+			for (int contador : contadores) suma += contador;
+			System.out.println("  ----------Informaci�n Sobre la Carga------------------  ");
+			for (int i = 0; i < contadores.length; i++) {
+				System.out.println("Infracciones Mes " + (i+1)+": " + contadores[i]);
+			}
+			System.out.println("Total Infracciones Cuatrisemetre: " + suma);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		return 0;
+	}
+		
+	private int buscarArray(String[] array, String string) {
+		int i = 0;
+		
+		while (i < array.length) {
+			if (array[i].equals(string)) return i;
+			i += 1;
+		}
+		return -1;
 	}
 	
 	/**
