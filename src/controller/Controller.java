@@ -50,11 +50,12 @@ public class Controller {
 		// Contadores de infracciones en cada mes de los archivos a cargar
 		int[] contadores = new int[movingViolationsFilePaths.length];
 		int fileCounter = 0;
+		int suma = 0;
 		try {
 			movingViolationsQueue = new Queue<VOMovingViolation>();
 			
 			for (String filePath : movingViolationsFilePaths) {
-				reader = new CSVReader(new FileReader("data/"+filePath));
+				reader = new CSVReader(new FileReader(filePath));
 				String[] headers = reader.readNext();
 				// Array con la posicion de cada header conocido (e.g. LOCATION) dentro del header del archivo
 				// Esto permite que el archivo tenga otras columnas y se encuentren en otro orden y aun asi
@@ -72,13 +73,12 @@ public class Controller {
 			    fileCounter += 1;
 			}
 			
-			int suma = 0;
 			for (int contador : contadores) suma += contador;
-			System.out.println("  ----------Informaci�n Sobre la Carga------------------  ");
+			/*System.out.println("  ----------Informaci�n Sobre la Carga------------------  ");
 			for (int i = 0; i < contadores.length; i++) {
 				System.out.println("Infracciones Mes " + (i+1)+": " + contadores[i]);
 			}
-			System.out.println("Total Infracciones Cuatrisemetre: " + suma);
+			System.out.println("Total Infracciones Cuatrisemetre: " + suma);*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,7 +92,7 @@ public class Controller {
 			}
 		}
 		
-		return 0;
+		return suma;
 	}
 		
 	private int buscarArray(String[] array, String string) {
