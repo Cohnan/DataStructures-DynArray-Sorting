@@ -7,7 +7,7 @@ import java.util.Iterator;
  * Implementacion de IQueue, interfaz para una cola como estructura de datos abstracta
  * @author cohnan
  */
-public class Queue<T> implements IQueue<T> {
+public class Queue<T extends Comparable<T>> implements IQueue<T> {
 	/*
 	 * Variables
 	 */
@@ -106,14 +106,8 @@ public class Queue<T> implements IQueue<T> {
 		// TODO
 	}
 	
-	private static <T> void merge(Queue<T> q1, Queue<T> q2, Queue<T> result, Comparator<T> comparador, boolean descendente) {
+	private void merge(Queue<T> q1, Queue<T> q2, Queue<T> result, Comparator<T> comparador, boolean descendente) {
 		
-	}
-
-	@Override
-	public int compareTo(T arg0) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 }

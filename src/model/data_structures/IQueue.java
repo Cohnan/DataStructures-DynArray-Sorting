@@ -2,7 +2,7 @@ package model.data_structures;
 
 import java.util.Comparator;
 
-public interface IQueue<T> extends Iterable<T>, Comparable<T>{
+public interface IQueue<T extends Comparable<T>> extends Iterable<T>{
 
 	/**
 	 * Retorna true si la Cola esta vacia

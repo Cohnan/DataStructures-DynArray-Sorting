@@ -2,7 +2,7 @@ package model.data_structures;
 
 import java.util.Comparator;
 
-public interface IStack<T> extends Iterable<T>, Comparable<T>{
+public interface IStack<T extends Comparable<T>> extends Iterable<T>{
 	
 	/**
 	 * Retorna true si la Pila esta vacia

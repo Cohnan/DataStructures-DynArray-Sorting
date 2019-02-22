@@ -3,7 +3,7 @@ package model.data_structures;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class Stack <T> implements IStack<T> { // Sebastian: creo que es necesario agregar <I> luego de Stack. Edit: al corregir push, si se vuelve necesario
+public class Stack <T extends Comparable<T>> implements IStack<T> { // Sebastian: creo que es necesario agregar <I> luego de Stack. Edit: al corregir push, si se vuelve necesario
 
 
 	private Nodo<T> first; 	// Cabeza de la pila
@@ -103,16 +103,8 @@ public class Stack <T> implements IStack<T> { // Sebastian: creo que es necesari
 		// TODO
 	}
 	
-	private static <T> void merge(Stack<T> q1, Stack<T> q2, Stack<T> result, Comparator<T> comparador, boolean descendente) {
+	private void merge(Stack<T> q1, Stack<T> q2, Stack<T> result, Comparator<T> comparador, boolean descendente) {
 		// TODO
 	}
-
-
-	@Override
-	public int compareTo(T arg0) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 
 }
