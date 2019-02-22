@@ -111,9 +111,9 @@ public class VOMovingViolation implements Comparable<VOMovingViolation> {
 	/**
 	 * @return date - Fecha cuando se puso la infraccion .
 	 */
-	public String getTicketIssueDate() {
+	public Calendar getTicketIssueDate() {
 		// TODO Auto-generated method stub
-		return "";
+		return ticketIssueDate;
 	}
 	
 	/**
@@ -141,9 +141,23 @@ public class VOMovingViolation implements Comparable<VOMovingViolation> {
 	}
 
 	@Override
-	public int compareTo(VOMovingViolation o) {
-		// TODO implementar la comparacion "natural" de la clase
+	public int compareTo(VOMovingViolation infraccion2) {
+	
+		if(ticketIssueDate.compareTo(infraccion2.getTicketIssueDate())>0){
+			return 1;
+		}
+		if(ticketIssueDate.compareTo(infraccion2.getTicketIssueDate())<0){
+			return -1;
+		}
+		if (objectId()>infraccion2.objectId()){
+			return 1;
+		}
+		if (objectId()<infraccion2.objectId()){
+			return -1;
+		}
 		return 0;
+		
+		
 	}
 	
 	public String toString()
