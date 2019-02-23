@@ -29,6 +29,6 @@ public interface IQueue<T extends Comparable<T>> extends Iterable<T>{
 	public T dequeue();
 	
 	
-	public void sort(Queue<T> cola, Comparator<T> comparador, boolean descendente);
+	public static <T extends Comparable<T>> void sort(Queue<T> cola, boolean descendente){}
 	
 }

@@ -2,6 +2,8 @@ package controller;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import com.opencsv.CSVReader;
@@ -111,10 +113,46 @@ public class Controller {
 	 * @param n tamaNo de la muestra, n > 0
 	 * @return muestra generada
 	 */
-	public Comparable<VOMovingViolation> [ ] generarMuestra( int n )
+	public Comparable<VOMovingViolation>[] generarMuestra( int n )
 	{
-		muestra = new Comparable[ n ];
-					
+		
+		muestra = new Comparable[ n ];	
+		
+		Queue<Integer> numeros =  new Queue<>();
+		
+		System.out.println(n);
+		int contador = 0;
+		int random = 0;
+		
+		while(contador<n){
+			random = (int)(Math.random()*240000+1);
+			System.out.println(random);
+			numeros.enqueue(random);
+			contador ++;
+		}
+		
+	
+		//Ordenar los números
+		//IQueue.sort(numeros, false);
+		
+		
+		Iterator<VOMovingViolation> iterador = movingViolationsQueue.iterator();
+		VOMovingViolation actual = iterador.next();
+		contador = 0;
+		int agregar = 0;
+		
+		while(iterador.hasNext())
+		{
+			int numeroVerificar = numeros.dequeue();
+			if(contador == numeroVerificar){
+				muestra[agregar] = actual;
+				agregar++;
+			}
+			
+			contador ++;
+		}
+		
+		
 		// TODO Llenar la muestra aleatoria con los datos guardados en la estructura de datos
 		
 		return muestra;

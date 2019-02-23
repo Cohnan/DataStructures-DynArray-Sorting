@@ -101,10 +101,7 @@ public class Queue<T extends Comparable<T>> implements IQueue<T> {
 		size--;
 		return datoViejo;
 	}
-	
-	public void sort(Queue<T> cola, Comparator<T> comparador, boolean descendente) {
-		// TODO
-	}
+
 	
 	private void merge(Queue<T> q1, Queue<T> q2, Queue<T> result, Comparator<T> comparador, boolean descendente) {
 		
