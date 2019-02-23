@@ -118,7 +118,7 @@ public class Controller {
 		
 		muestra = new Comparable[ n ];	
 		
-		Queue<Integer> numeros =  new Queue<>();
+		IQueue<Integer> numeros =  new Queue<>();
 		
 		int contador = 0;
 		int random = 0;
@@ -131,26 +131,25 @@ public class Controller {
 		}
 
 	
-		System.out.println("Primer dequeue"+numeros.dequeue());
 		//Ordenar los números
 		//Sort.ordenarMergeSort(numeros);
 		
-		Iterator<VOMovingViolation> iterador = movingViolationsQueue.iterator();
-		VOMovingViolation actual = iterador.next();
+		
 		contador = 0;
 		int agregar = 0;
+		int numeroVerificar = numeros.dequeue();
 		
-		while(iterador.hasNext())
-		{
-			int numeroVerificar = (int)numeros.dequeue();
+		for(VOMovingViolation s: movingViolationsQueue){
 			if(contador == numeroVerificar){
-				muestra[agregar] = actual;
+				muestra[agregar] = s;
 				agregar++;
+				numeroVerificar = numeros.dequeue();
 			}
-			
 			contador ++;
+			
 		}
 		
+			
 		
 		// TODO Llenar la muestra aleatoria con los datos guardados en la estructura de datos
 		
