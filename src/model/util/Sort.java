@@ -3,6 +3,11 @@ import java.lang.Math;
 
 public class Sort {
 	
+	/*
+	 * **********************************************************************************************
+	 * *********************************** SHELL SORT ***********************************************
+	 * **********************************************************************************************
+	 */
 	/**
 	 * Ordenar datos aplicando el algoritmo ShellSort
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
@@ -39,7 +44,9 @@ public class Sort {
 		
 		return lista;
 	}
-	
+	/*
+	 * **********************************************************************************************
+	 */
 	/**
 	 * Ordenar datos aplicando el algoritmo MergeSort
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
@@ -56,6 +63,42 @@ public class Sort {
 	public static void ordenarQuickSort( Comparable[ ] datos ) {
 
 		// TODO implementar el algoritmo QuickSort
+		
+		// Desordenar
+		for (int i = 0; i < datos.length/2; i++) exchange(datos, (int) Math.random()*(datos.length-1), (int) Math.random()*(datos.length-1));
+		
+		ordenarQuickSort(datos, 0, datos.length-1);
+	}
+	
+	private static void ordenarQuickSort( Comparable[ ] datos, int min, int max) {
+		if (min >= max) return;
+		
+		Comparable ref = datos[min];
+		
+		// Partir array en dato de referencia, datos menores o iguales, y datos mayores
+		int indLastLeq = min;
+		int indFirstGr = max + 1;
+		while (true) {
+			// Encontrar la posicion actual donde termina la particion de numeros menores o iguales
+			while (indLastLeq < max && datos[indLastLeq + 1].compareTo(ref) <= 0) indLastLeq += 1;
+			if (indLastLeq + 1 == indFirstGr) break;
+			
+			// Encontrar la posicion actual donde empieza la particion de numeros mayores
+			while (indFirstGr > (min+1) && datos[indFirstGr - 1].compareTo(ref) > 0) indFirstGr -= 1;
+			if (indLastLeq + 1 == indFirstGr) break;
+			
+			// En caso de no cruzarse las dos partes del array, hacer el intercambio de los
+			// elementos que interrumpen las 2 partes del array
+			exchange(datos, indLastLeq + 1, indFirstGr - 1);
+			indLastLeq += 1;
+			indFirstGr -= 1;
+		}
+		// Dejar elemento de referencia en su posicion final
+		exchange(datos, min, indLastLeq);
+		
+		// Ordenar las 2 partes restantes
+		ordenarQuickSort(datos, min, indLastLeq - 1);
+		ordenarQuickSort(datos, indFirstGr, max);
 	}
 	
 	/**

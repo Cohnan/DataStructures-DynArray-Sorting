@@ -12,7 +12,7 @@ public class SortTest {
 
 	// Muestra de datos a ordenar
 	private Integer[] datos = new Integer[]{6,4,6, 7, 3, 5, 2, 7, 3, 8, 2, 5, 2, 5, 8, 3, 1, 6, 8, 12, 34, 57, 43, 67, 23, 5, 43, 13, 64, 72, 99};
-	
+	//private Integer[] datos = new Integer[]{4, 3, 2, 1};
 	@Before
 	public void setUp() throws Exception{
 		System.out.println("Codigo de configuracion de muestra de datos a probar");
@@ -30,7 +30,7 @@ public class SortTest {
 		}
 		System.out.println("");
 		*/
-		Sort.ordenarShellSort(datos);
+		Sort.ordenarQuickSort(datos);
 		/*
 		System.out.println("Despues del test: ");
 		for (int i = 0; i < datos.length; i++) {
