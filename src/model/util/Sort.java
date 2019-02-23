@@ -8,6 +8,9 @@ public class Sort {
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
 	 */
 	public static void ordenarShellSort( Comparable[ ] datos ) {
+		// Esta es una implementacion hecha con el proposito de entender shellsort, que permite
+		// el uso de diferentes secuencias con facilidad. La unica diferencia en uso de recursos
+		// de esta implementacion es la creacion de la secuencia y su guardado en memoria, algo minimo.
 		int[] secuencia = giveSequence(datos.length);
 		
 		for (int h : secuencia) hsort(datos, h);
@@ -15,25 +18,15 @@ public class Sort {
 	
 	private static void hsort(Comparable[] datos, int h) {
 		int posOfInserting;
-		String antes = "Antes: ";//TEST
-		String despues = "Despues: ";//TEST
 		for (int i = 0; i < h; i += 1) {
 			// insertion-sort el h-subarray que empieza en i
-			antes += datos[i] + " "; //TEST
 			for (int j = i + h; j < datos.length ; j += h) {
-				antes += datos[j] + " "; //TEST
 				posOfInserting = j;
 				while ((posOfInserting - h)>= 0 && less(datos[posOfInserting], datos[posOfInserting-h])) {
 					exchange(datos, posOfInserting, posOfInserting-h);
 					posOfInserting -= h;
 				}
 			}
-			for (int j = i; j < datos.length ; j += h) {
-				despues += datos[j] + " ";
-			}
-			System.out.println(antes);
-			System.out.println(despues);
-			System.out.println(h + "-sorted!");
 		}
 	}
 	
