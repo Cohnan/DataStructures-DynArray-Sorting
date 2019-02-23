@@ -58,8 +58,53 @@ public class Sort {
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
 	 */
 	public static void ordenarMergeSort( Comparable[ ] datos ) {
-
+		
+		//Se crea un arreglo auxiliar con los datos
+		Comparable[] auxiliar = new Comparable[datos.length];
+		ordenarMergeSort(datos,auxiliar,0,datos.length-1);
+		
 		// TODO implementar el algoritmo MergeSort
+	}
+	
+	private static void ordenarMergeSort(Comparable[]datos , Comparable[] auxiliar, int min, int max){
+		
+		
+		//Caso en el que este mal compuesto el arreglo
+		if(max<=min)return;
+		
+		//Se encuentra la mitad
+		int med = max + (max-min)/2;
+		//Se resuelve recurisvamente cada mitad
+		ordenarMergeSort(datos, auxiliar,min,med);
+		ordenarMergeSort(datos, auxiliar, med +1 ,max);
+		merge(datos,auxiliar,min,med,max);
+
+		
+	}
+	
+	private static void merge(Comparable[] datos, Comparable[] auxiliar, int min, int med, int max){
+		
+		
+		//Se copia el arreglo
+		for( int k = min; k<=max; k++){
+			auxiliar[k] = datos[k];
+		}
+		
+		int i = min;
+		int j = med+1;
+		
+		
+		for(int k = min; k<= max;k++){
+			
+			if(i>med) datos[k] = auxiliar[j++];
+			else if(j>max) datos[k] = auxiliar[i++];
+			else if(less(auxiliar[j], auxiliar[i])) datos[k] = auxiliar[j++];
+			else datos[k] = auxiliar[i++];
+		}
+		
+		
+		
+		
 	}
 	/*
 	 * **********************************************************************************************

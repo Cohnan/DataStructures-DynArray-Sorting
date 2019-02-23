@@ -120,7 +120,6 @@ public class Controller {
 		
 		Queue<Integer> numeros =  new Queue<>();
 		
-		System.out.println(n);
 		int contador = 0;
 		int random = 0;
 		
@@ -130,11 +129,11 @@ public class Controller {
 			numeros.enqueue(random);
 			contador ++;
 		}
-		
+
 	
+		System.out.println("Primer dequeue"+numeros.dequeue());
 		//Ordenar los números
-		//IQueue.sort(numeros, false);
-		
+		//Sort.ordenarMergeSort(numeros);
 		
 		Iterator<VOMovingViolation> iterador = movingViolationsQueue.iterator();
 		VOMovingViolation actual = iterador.next();
@@ -143,7 +142,7 @@ public class Controller {
 		
 		while(iterador.hasNext())
 		{
-			int numeroVerificar = numeros.dequeue();
+			int numeroVerificar = (int)numeros.dequeue();
 			if(contador == numeroVerificar){
 				muestra[agregar] = actual;
 				agregar++;
