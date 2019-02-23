@@ -1,4 +1,5 @@
 package model.util;
+import java.lang.Math;
 
 public class Sort {
 	
@@ -7,8 +8,43 @@ public class Sort {
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
 	 */
 	public static void ordenarShellSort( Comparable[ ] datos ) {
+		int[] secuencia = giveSequence(datos.length);
 		
-		// TODO implementar el algoritmo ShellSort
+		for (int h : secuencia) hsort(datos, h);
+	}
+	
+	private static void hsort(Comparable[] datos, int h) {
+		int posOfInserting;
+		String antes = "Antes: ";//TEST
+		String despues = "Despues: ";//TEST
+		for (int i = 0; i < h; i += 1) {
+			// insertion-sort el h-subarray que empieza en i
+			antes += datos[i] + " "; //TEST
+			for (int j = i + h; j < datos.length ; j += h) {
+				antes += datos[j] + " "; //TEST
+				posOfInserting = j;
+				while ((posOfInserting - h)>= 0 && less(datos[posOfInserting], datos[posOfInserting-h])) {
+					exchange(datos, posOfInserting, posOfInserting-h);
+					posOfInserting -= h;
+				}
+			}
+			for (int j = i; j < datos.length ; j += h) {
+				despues += datos[j] + " ";
+			}
+			System.out.println(antes);
+			System.out.println(despues);
+			System.out.println(h + "-sorted!");
+		}
+	}
+	
+	private static int[] giveSequence(int n) {
+		// Usamos la secuencia 1, 4, 13, ...
+		// Esto asegura que para el h maximo, cada subarray que ea h-sorted tenga longitud al menos 3
+		int k = (int)(Math.log(2*n + 1)/Math.log(3) - 1);
+		int[] lista = new int[k];
+		for (int i = 0; i < k; i++) lista[i] = (int)((Math.pow(3, k-i) - 1)/2);
+		
+		return lista;
 	}
 	
 	/**
@@ -35,10 +71,9 @@ public class Sort {
 	 * @param w segundo objeto de comparacion
 	 * @return true si v es menor que w usando el metodo compareTo. false en caso contrario.
 	 */
-	private boolean less(Comparable v, Comparable w)
+	private static boolean less(Comparable v, Comparable w)
 	{
-		// TODO implementar
-		return false;
+		return v.compareTo(w) < 0;
 	}
 	
 	/**
@@ -47,9 +82,11 @@ public class Sort {
 	 * @param i posicion del 1er elemento a intercambiar
 	 * @param j posicion del 2o elemento a intercambiar
 	 */
-	private void exchange( Comparable[] datos, int i, int j)
+	private static void exchange( Comparable[] datos, int i, int j)
 	{
-		// TODO implementar
+		Comparable temp = datos[i];
+		datos[i] = datos[j];
+		datos[j] = temp;
 	}
 
 }
