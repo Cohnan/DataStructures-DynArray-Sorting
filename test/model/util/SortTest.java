@@ -2,46 +2,103 @@ package model.util;
 
 import static org.junit.Assert.*;
 import java.util.Arrays;
-
-import org.junit.Before;
 import org.junit.Test;
 
 import model.util.Sort;
 
 public class SortTest {
-
+	/*
+	 * Constantes
+	 */
+	// Tamano de la muestra
+	private final int N = 1000;
+	// Numero de escenarios de prueba
+	private final int totalEscenarios = 3;
+	
+	/*
+	 * Atributos
+	 */
 	// Muestra de datos a ordenar
-	private Integer[] datos = new Integer[]{6,4,6, 7, 3, 5, 2, 7, 3, 8, 2, 5, 2, 5, 8, 3, 1, 6, 8, 12, 34, 57, 43, 67, 23, 5, 43, 13, 64, 72, 99};
-	//private Integer[] datos = new Integer[]{4, 3, 2, 1};
-	@Before
-	public void setUp() throws Exception{
-		System.out.println("Codigo de configuracion de muestra de datos a probar");
+	Comparable[] datos;
+	
+	/**
+	 * Establece los escenarios de prueba
+	 * @param n Numero de escenario de prueba a configurar
+	 */
+	private void setUpEscenario(int n) {
+		if (n >= totalEscenarios) throw new IllegalArgumentException("No hay tantos escenarios");
+		datos = new Comparable[N];
+		switch(n) {
+		// Escenario: muestra ya ordenada
+		case 0:
+			for(int i = 0; i < N; i++) datos[i] = (Comparable) i;
+			break;
+		// Escenarios: muestra totalmente desordenada
+		case 1:
+			for(int i = 0; i < N; i++) datos[i] = (Comparable) (N-1-i);
+		// Escenario: muestra aleatoria
+		case 2:
+			for(int i = 0; i < N; i++) datos[i] = (Comparable) Math.random();
+		}
 	}
-
+	
+	/**
+	 * Prueba de ShellSort
+	 */
 	@Test
-	public void test() {
-		
-		Comparable[] datosOrdenados = Arrays.copyOf(datos, datos.length);
-		Arrays.sort(datosOrdenados);
-		/*
-		System.out.println("Antes del test: ");
-		for (int i = 0; i < datos.length; i++) {
-			System.out.print(datos[i] + " ");
+	public void testShellSort() {
+		Comparable[] datosOrdenados;
+				
+		for (int n = 0; n < totalEscenarios; n++) {
+			setUpEscenario(n);
+				
+			datosOrdenados = Arrays.copyOf(datos, datos.length);
+			Arrays.sort(datosOrdenados);
+			Sort.ordenarShellSort(datos);
+			
+			for (int i = 0; i < datos.length; i++) {
+				assertTrue(datos[i].equals(datosOrdenados[i]));
+			}
 		}
-		System.out.println("");
-		*/
-		Sort.ordenarQuickSort(datos);
-		/*
-		System.out.println("Despues del test: ");
-		for (int i = 0; i < datos.length; i++) {
-			System.out.print(datos[i] + " ");
-		}
-		System.out.println("");
-		*/
-		for (int i = 0; i < datos.length; i++) {
-			assertTrue(datos[i].equals(datosOrdenados[i]));
-		}
-		
 	}
-
+	
+	/**
+	 * Prueba de MergeSort
+	 */
+	@Test
+	public void testMergeSort() {
+		Comparable[] datosOrdenados;
+				
+		for (int n = 0; n < totalEscenarios; n++) {
+			setUpEscenario(n);
+				
+			datosOrdenados = Arrays.copyOf(datos, datos.length);
+			Arrays.sort(datosOrdenados);
+			Sort.ordenarMergeSort(datos);
+			
+			for (int i = 0; i < datos.length; i++) {
+				assertTrue(datos[i].equals(datosOrdenados[i]));
+			}
+		}
+	}
+	
+	/**
+	 * Prueba de QuickSort
+	 */
+	@Test
+	public void testQuickSort() {
+		Comparable[] datosOrdenados;
+				
+		for (int n = 0; n < totalEscenarios; n++) {
+			setUpEscenario(n);
+				
+			datosOrdenados = Arrays.copyOf(datos, datos.length);
+			Arrays.sort(datosOrdenados);
+			Sort.ordenarQuickSort(datos);
+			
+			for (int i = 0; i < datos.length; i++) {
+				assertTrue(datos[i].equals(datosOrdenados[i]));
+			}
+		}
+	}
 }
