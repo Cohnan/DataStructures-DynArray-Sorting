@@ -167,8 +167,10 @@ public class Controller {
 	 * @param datos - conjunto de datos a invertir (inicio) y conjunto de datos invertidos (final)
 	 */
 	public void invertirMuestra( Comparable[ ] datos ) {
-
-		// TODO implementar
+		int n = datos.length;
+		Comparable[] auxiliar = new Comparable[n];
+		for (int i = 0; i < datos.length; i++) auxiliar[i] = datos[n-i-1];
+		datos = auxiliar;
 	}
 	
 	public void run() {
