@@ -47,6 +47,12 @@ public class Sort {
 	/*
 	 * **********************************************************************************************
 	 */
+	
+	/*
+	 * **********************************************************************************************
+	 * *********************************** MERGE SORT ***********************************************
+	 * **********************************************************************************************
+	 */
 	/**
 	 * Ordenar datos aplicando el algoritmo MergeSort
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
@@ -55,15 +61,20 @@ public class Sort {
 
 		// TODO implementar el algoritmo MergeSort
 	}
-
+	/*
+	 * **********************************************************************************************
+	 */
+	
+	/*
+	 * **********************************************************************************************
+	 * *********************************** QUICK SORT ***********************************************
+	 * **********************************************************************************************
+	 */
 	/**
 	 * Ordenar datos aplicando el algoritmo QuickSort
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
 	 */
 	public static void ordenarQuickSort( Comparable[ ] datos ) {
-
-		// TODO implementar el algoritmo QuickSort
-		
 		// Desordenar
 		for (int i = 0; i < datos.length/2; i++) exchange(datos, (int) Math.random()*(datos.length-1), (int) Math.random()*(datos.length-1));
 		
@@ -100,6 +111,9 @@ public class Sort {
 		ordenarQuickSort(datos, min, indLastLeq - 1);
 		ordenarQuickSort(datos, indFirstGr, max);
 	}
+	/*
+	 * **********************************************************************************************
+	 */
 	
 	/**
 	 * Comparar 2 objetos usando la comparacion "natural" de su clase
