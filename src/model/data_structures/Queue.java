@@ -78,20 +78,8 @@ public class Queue<T extends Comparable<T>> implements IQueue<T> {
 	 * quita un elemento de la cola
 	 */
 	public T dequeue() {
-		
-
 		if (size == 0) return null;
-		if (size == 1) {
-			size = 0;
-			Nodo<T> auxiliar = first;
-			first = null;
-			ultimo = null;
-			return auxiliar.darObjeto();
-		}
-
 		
-		
-		// Referencia al penultimo nodo actual
 		Nodo<T> primeroEnFila = first;
 		first = primeroEnFila.darSiguiente();
 

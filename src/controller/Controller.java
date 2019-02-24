@@ -129,21 +129,18 @@ public class Controller {
 			int random = 0;
 
 			while(contador<n){
-				random = (int)(Math.random()*movingViolationsQueue.size()+1);
+				random = (int)(Math.random() * movingViolationsQueue.size()-1);
 				posiciones[contador] = random;
 				contador ++;
 			}
 
-			//Ordenar los números
+			//Ordenar los nï¿½meros
 			Sort.ordenarQuickSort(posiciones);
 
 			contador = 0;
 			int agregar = 0;
 			int numeroVerificar = posiciones[agregar];
 			boolean termino = false;
-			
-			Iterator<VOMovingViolation> iterator = movingViolationsQueue.iterator();
-
 //			while(iterator.hasNext() && !termino){
 //				
 //				if(contador == numeroVerificar){
@@ -161,7 +158,6 @@ public class Controller {
 			System.out.println(movingViolationsQueue.size());
 			
 			for(VOMovingViolation s: movingViolationsQueue){
-				
 				if(contador == numeroVerificar){
 					System.out.println(s);
 					muestra[agregar] = s;

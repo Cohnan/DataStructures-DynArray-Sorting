@@ -163,6 +163,6 @@ public class VOMovingViolation implements Comparable<VOMovingViolation> {
 	public String toString()
 	{
 		// TODO Convertir objeto en String (representacion que se muestra en la consola)
-		return "-";
+		return iD;
 	}
 }
