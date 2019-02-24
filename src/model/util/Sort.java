@@ -38,7 +38,8 @@ public class Sort {
 	private static int[] giveSequence(int n) {
 		// Usamos la secuencia 1, 4, 13, ...
 		// Esto asegura que para el h maximo, cada subarray que ea h-sorted tenga longitud al menos 3
-		int k = (int)(Math.log(2*n + 1)/Math.log(3) - 1);
+		int k = (int)(Math.log(2*n + 1)/Math.log(3) + 1);
+		System.out.println(k);
 		int[] lista = new int[k];
 		for (int i = 0; i < k; i++) lista[i] = (int)((Math.pow(3, k-i) - 1)/2);
 		
@@ -112,7 +113,10 @@ public class Sort {
 	 */
 	public static void ordenarQuickSort( Comparable[ ] datos ) {
 		// Desordenar
-		for (int j = 100; j < 1; j++) {for (int i = 0; i < datos.length; i++) exchange(datos, i, (int) Math.random()*(datos.length-1));}
+		long inT = System.currentTimeMillis();
+		//for (int j = 100000; j < 1; j++) {for (int i = 0; i < datos.length; i++) exchange(datos, i, (int) Math.random()*(datos.length-1));}
+		long finT = System.currentTimeMillis();
+		System.out.println("Shuffling takes: " + (finT - inT));	
 		
 		ordenarQuickSort(datos, 0, datos.length-1);
 	}
@@ -121,10 +125,10 @@ public class Sort {
 		if (min >= max) return;
 		if (min + 1 == max) {if (less(datos[max], datos[min])) exchange(datos, min, max); return;}
 		
-		Comparable ref = datos[min];
+		Comparable ref = datos[(min+max)/2];
 		
 		// Partir array en dato de referencia, datos menores o iguales, y datos mayores
-		int indLastLeq = min;
+		int indLastLeq = min-1;
 		int indFirstGr = max + 1;
 		while (true) {
 			// Encontrar la posicion actual donde termina la particion de numeros menores o iguales
@@ -142,7 +146,7 @@ public class Sort {
 			indFirstGr -= 1;
 		}
 		// Dejar elemento de referencia en su posicion final
-		exchange(datos, min, indLastLeq);
+		exchange(datos, (min+max)/2, indLastLeq);
 		
 		// Ordenar las 2 partes restantes
 		ordenarQuickSort(datos, min, indLastLeq - 1);

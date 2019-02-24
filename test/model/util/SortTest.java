@@ -11,7 +11,7 @@ public class SortTest {
 	 * Constantes
 	 */
 	// Tamano de la muestra
-	private final int N = 300000;
+	private final int N = 3;
 	// Numero de escenarios de prueba
 	private final int totalEscenarios = 3;
 	
@@ -36,9 +36,11 @@ public class SortTest {
 		// Escenarios: muestra totalmente desordenada
 		case 1:
 			for(int i = 0; i < N; i++) datos[i] = (Comparable) ((N-1-i)/2);
+			break;
 		// Escenario: muestra aleatoria
 		case 2:
 			for(int i = 0; i < N; i++) datos[i] = (Comparable) Math.random();
+			break;
 		}
 	}
 	
@@ -55,6 +57,10 @@ public class SortTest {
 			datosOrdenados = Arrays.copyOf(datos, datos.length);
 			Arrays.sort(datosOrdenados);
 			Sort.ordenarShellSort(datos);
+			
+			for (int i = 0; i < N; i++) {
+				System.out.print(datos[i] + " ");
+			} System.out.println("");
 			
 			for (int i = 0; i < datos.length; i++) {
 				assertTrue(datos[i].equals(datosOrdenados[i]));
@@ -91,13 +97,18 @@ public class SortTest {
 				
 		for (int n = 0; n < totalEscenarios; n++) {
 			setUpEscenario(n);
+			System.out.println("Configura el escenario: " + n);
 				
 			datosOrdenados = Arrays.copyOf(datos, datos.length);
 			Arrays.sort(datosOrdenados);
 			Sort.ordenarQuickSort(datos);
 			
+			for (int i = 0; i < N; i++) {
+				System.out.print(datos[i] + " ");
+			} System.out.println("");
+			
 			for (int i = 0; i < datos.length; i++) {
-				assertTrue(datos[i].equals(datosOrdenados[i]));
+				assertTrue("Falla en esc " + n, datos[i].equals(datosOrdenados[i]));
 			}
 		}
 	}
