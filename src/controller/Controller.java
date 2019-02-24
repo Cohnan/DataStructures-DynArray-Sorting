@@ -115,20 +115,20 @@ public class Controller {
 	 */
 	public Comparable<VOMovingViolation>[] generarMuestra( int n )
 	{
-		
+
 		if(n > 240000){
 			throw new IllegalArgumentException("No se generan muestras de tal tamanio.");
 		}
 		muestra = new Comparable[ n ];	
 		Integer[] posiciones  =  new Integer[n];
-		
+
 		long initTimeRan = System.currentTimeMillis();
 		for (int i = 0; i < n; i++){
 			Math.random();
 		}
 		long finTimeRan = System.currentTimeMillis();
-		System.out.println("En generarse n numeros aleatorios se usaron " + (finTimeRan - initTimeRan) + "milis");
-		
+		System.out.println("En generarse "+n+" numeros aleatorios se usaron " + (finTimeRan - initTimeRan) + "milis");
+
 		int contador = 0;
 		int random = 0;
 		int indDeRandom;
@@ -136,7 +136,7 @@ public class Controller {
 		long initTimePosGen = System.currentTimeMillis();
 		while(contador < n){
 			random = (int)(Math.random() * movingViolationsQueue.size()-1);
-			
+
 			// Hallar la que seria la posiciones ordenada de random en el arreglo de posiciones
 			indDeRandom = contador;
 			while (indDeRandom > 0 && posiciones[indDeRandom - 1] > random) {
@@ -156,49 +156,38 @@ public class Controller {
 		}
 		long finTimePosGen = System.currentTimeMillis();
 		System.out.println("En generarse las posiciones se usaron " + (finTimePosGen - initTimePosGen) + "milis");
-		
-		
+
+
+
+
+		Iterator<VOMovingViolation> iterador = movingViolationsQueue.iterator();
 		contador = 0;
 		int agregar = 0;
 		int numeroVerificar = posiciones[agregar];
 		boolean termino = false;
-//		while(iterator.hasNext() && !termino){
-//			
-//			if(contador == numeroVerificar){
-//				muestra[agregar] = iterator.next();
-//				agregar++;
-//				
-//				if(agregar<n) numeroVerificar = posiciones[agregar];
-//				else termino = true;
-//			}
-//			contador ++;
-////				
-//		}
-		
-		//System.out.println(movingViolationsQueue.size());
 		long initTimeCargando = System.currentTimeMillis();
-		for(VOMovingViolation s: movingViolationsQueue){
+		while(iterador.hasNext() && !termino){
+
 			if(contador == numeroVerificar){
-				//System.out.println(s);
-				muestra[agregar] = s;
+				muestra[agregar] = iterador.next();
 				agregar++;
-				
+
 				if(agregar<n) numeroVerificar = posiciones[agregar];
 				else termino = true;
 			}
-			contador ++;
+			contador ++;				
 		}
 		long finTimeCargando = System.currentTimeMillis();
+
+		Sort.ordenarMergeSort(muestra);
+		
+		
 		System.out.println("En cargar la muestra se usaron " + (finTimeCargando - initTimeCargando) + "milis");
-		
-		
 		System.out.println("Datos de la muestra: primer el, segundo, ultimo y tamanio");
 		System.out.println(muestra[0]);
 		System.out.println(muestra[1]);
 		System.out.println(muestra[muestra.length-1]);
-		System.out.println(muestra.length);
 		return muestra;
-
 	}
 
 	/**
