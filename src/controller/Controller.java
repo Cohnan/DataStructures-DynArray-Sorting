@@ -115,28 +115,42 @@ public class Controller {
 	 */
 	public Comparable<VOMovingViolation>[] generarMuestra( int n )
 	{
-
-		if(n>240000){
-			//handle
+		
+		if(n > 240000){
+			throw new IllegalArgumentException("No se generan muestras de tal tamanio.");
 		}
 		else
 		{
-
 			muestra = new Comparable[ n ];	
 			Integer[] posiciones  =  new Integer[n];
 
 			int contador = 0;
 			int random = 0;
-
-			while(contador<n){
+			int indDeRandom;
+			int temp;
+			while(contador < n){
 				random = (int)(Math.random() * movingViolationsQueue.size()-1);
-				posiciones[contador] = random;
-				contador ++;
+				
+				// Hallar la que seria la posiciones ordenada de random en el arreglo de posiciones
+				indDeRandom = contador;
+				while (indDeRandom > 0 && posiciones[indDeRandom - 1] > random) {
+					indDeRandom -=1;
+				}
+				// Agrega y aumenta el contador 
+				// si no se encuentra ya random en el arreglo
+				if (indDeRandom == 0 || posiciones[indDeRandom - 1] < random) {
+					posiciones[contador] = random;
+					for (int i = contador; i > indDeRandom; i--) {
+						temp = posiciones[i];
+						posiciones[i] = posiciones[i-1];
+						posiciones[i-1] = temp;
+					}
+					contador ++;
+				}
 			}
-
-			//Ordenar los n�meros
-			Sort.ordenarQuickSort(posiciones);
-
+			
+			
+			
 			contador = 0;
 			int agregar = 0;
 			int numeroVerificar = posiciones[agregar];
@@ -170,11 +184,10 @@ public class Controller {
 			}
 
 		}
-
-
-		// TODO Llenar la muestra aleatoria con los datos guardados en la estructura de datos
+		System.out.println("Datos de la muestra: primer el, segundo, ultimo y tamanio");
 		System.out.println(muestra[0]);
 		System.out.println(muestra[1]);
+		System.out.println(muestra[muestra.length-1]);
 		System.out.println(muestra.length);
 		return muestra;
 

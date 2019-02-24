@@ -31,7 +31,7 @@ public class VOMovingViolation implements Comparable<VOMovingViolation> {
 	/**
 	 * Atributos de la infracci�n
 	 */
-	private String iD; 
+	private int iD; 
 	private String location;
 	private int addressID;
 	private int streetsegID;
@@ -51,7 +51,7 @@ public class VOMovingViolation implements Comparable<VOMovingViolation> {
 	public VOMovingViolation(int[] headerPositions, String[] linea){
 		String campo;
 		
-		iD = linea[0]; //linea[headerPositions[OBJECTID]];
+		iD = Integer.parseInt(linea[0]); //linea[headerPositions[OBJECTID]];
 		
 		location = linea[headerPositions[LOCATION]];
 		
@@ -95,8 +95,7 @@ public class VOMovingViolation implements Comparable<VOMovingViolation> {
 	 * @return id - Identificador unico de la infraccion
 	 */
 	public int objectId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return iD;
 	}	
 	
 	
@@ -104,15 +103,13 @@ public class VOMovingViolation implements Comparable<VOMovingViolation> {
 	 * @return location - Direccion en formato de texto.
 	 */
 	public String getLocation() {
-		// TODO Auto-generated method stub
-		return "";
+		return location;
 	}
 
 	/**
 	 * @return date - Fecha cuando se puso la infraccion .
 	 */
 	public Calendar getTicketIssueDate() {
-		// TODO Auto-generated method stub
 		return ticketIssueDate;
 	}
 	
@@ -120,24 +117,21 @@ public class VOMovingViolation implements Comparable<VOMovingViolation> {
 	 * @return totalPaid - Cuanto dinero efectivamente paga el que recibio la infraccion en USD.
 	 */
 	public int getTotalPaid() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (int) totalPaid;
 	}
 	
 	/**
 	 * @return accidentIndicator - Si hubo un accidente o no.
 	 */
-	public String  getAccidentIndicator() {
-		// TODO Auto-generated method stub
-		return "";
+	public boolean  getAccidentIndicator() {
+		return accidentIndicator;
 	}
 		
 	/**
 	 * @return description - Descripcion textual de la infraccion.
 	 */
 	public String  getViolationDescription() {
-		// TODO Auto-generated method stub
-		return "";
+		return violationDesc;
 	}
 
 	@Override
@@ -162,7 +156,6 @@ public class VOMovingViolation implements Comparable<VOMovingViolation> {
 	
 	public String toString()
 	{
-		// TODO Convertir objeto en String (representacion que se muestra en la consola)
-		return iD;
+		return "ID: " + iD + ", Ticket Issue Data: " + ticketIssueDate.get(Calendar.DAY_OF_MONTH) + "/" + ticketIssueDate.get(Calendar.MONTH) + " at " + ticketIssueDate.getActualMaximum(Calendar.HOUR) + ":" + ticketIssueDate.get(Calendar.MINUTE) ;
 	}
 }
