@@ -4,9 +4,10 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import org.junit.Test;
 
+import junit.framework.TestCase;
 import model.util.Sort;
 
-public class SortTest {
+public class SortTest extends TestCase {
 	/*
 	 * Constantes
 	 */
@@ -45,7 +46,6 @@ public class SortTest {
 	/**
 	 * Prueba de ShellSort
 	 */
-	@Test
 	public void testShellSort() {
 		Comparable[] datosOrdenados;
 				
@@ -65,7 +65,7 @@ public class SortTest {
 	/**
 	 * Prueba de MergeSort
 	 */
-	@Test
+
 	public void testMergeSort() {
 		Comparable[] datosOrdenados;
 				
@@ -85,7 +85,6 @@ public class SortTest {
 	/**
 	 * Prueba de QuickSort
 	 */
-	@Test
 	public void testQuickSort() {
 		Comparable[] datosOrdenados;
 				

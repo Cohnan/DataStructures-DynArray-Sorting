@@ -179,8 +179,6 @@ public class Controller {
 		}
 		long finTimeCargando = System.currentTimeMillis();
 
-		Sort.ordenarMergeSort(muestra);
-		
 		
 		System.out.println("En cargar la muestra se usaron " + (finTimeCargando - initTimeCargando) + "milis");
 		System.out.println("Datos de la muestra: primer el, segundo, ultimo y tamanio");
