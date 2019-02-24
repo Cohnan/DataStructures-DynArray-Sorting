@@ -13,6 +13,7 @@ public class Sort {
 	 * Ordenar datos aplicando el algoritmo ShellSort
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
 	 */
+
 	public static void ordenarShellSort( Comparable[ ] datos ) {
 		// Esta es una implementacion hecha con el proposito de entender shellsort, que permite
 		// el uso de diferentes secuencias con facilidad. La unica diferencia en uso de recursos
@@ -45,6 +46,9 @@ public class Sort {
 		
 		return lista;
 	}
+	
+
+	
 	/*
 	 * **********************************************************************************************
 	 */
@@ -113,6 +117,7 @@ public class Sort {
 	 */
 	public static void ordenarQuickSort( Comparable[ ] datos ) {
 		// Desordenar
+		
 		StdRandom.shuffle(datos);
 		ordenarQuickSort(datos, 0, datos.length-1);
 	}
