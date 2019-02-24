@@ -119,71 +119,79 @@ public class Controller {
 		if(n > 240000){
 			throw new IllegalArgumentException("No se generan muestras de tal tamanio.");
 		}
-		else
-		{
-			muestra = new Comparable[ n ];	
-			Integer[] posiciones  =  new Integer[n];
-
-			int contador = 0;
-			int random = 0;
-			int indDeRandom;
-			int temp;
-			while(contador < n){
-				random = (int)(Math.random() * movingViolationsQueue.size()-1);
-				
-				// Hallar la que seria la posiciones ordenada de random en el arreglo de posiciones
-				indDeRandom = contador;
-				while (indDeRandom > 0 && posiciones[indDeRandom - 1] > random) {
-					indDeRandom -=1;
-				}
-				// Agrega y aumenta el contador 
-				// si no se encuentra ya random en el arreglo
-				if (indDeRandom == 0 || posiciones[indDeRandom - 1] < random) {
-					posiciones[contador] = random;
-					for (int i = contador; i > indDeRandom; i--) {
-						temp = posiciones[i];
-						posiciones[i] = posiciones[i-1];
-						posiciones[i-1] = temp;
-					}
-					contador ++;
-				}
+		muestra = new Comparable[ n ];	
+		Integer[] posiciones  =  new Integer[n];
+		
+		long initTimeRan = System.currentTimeMillis();
+		for (int i = 0; i < n; i++){
+			Math.random();
+		}
+		long finTimeRan = System.currentTimeMillis();
+		System.out.println("En generarse n numeros aleatorios se usaron " + (finTimeRan - initTimeRan) + "milis");
+		
+		int contador = 0;
+		int random = 0;
+		int indDeRandom;
+		int temp;
+		long initTimePosGen = System.currentTimeMillis();
+		while(contador < n){
+			random = (int)(Math.random() * movingViolationsQueue.size()-1);
+			
+			// Hallar la que seria la posiciones ordenada de random en el arreglo de posiciones
+			indDeRandom = contador;
+			while (indDeRandom > 0 && posiciones[indDeRandom - 1] > random) {
+				indDeRandom -=1;
 			}
-			
-			
-			
-			contador = 0;
-			int agregar = 0;
-			int numeroVerificar = posiciones[agregar];
-			boolean termino = false;
-//			while(iterator.hasNext() && !termino){
-//				
-//				if(contador == numeroVerificar){
-//					muestra[agregar] = iterator.next();
-//					agregar++;
-//					
-//					if(agregar<n) numeroVerificar = posiciones[agregar];
-//					else termino = true;
-//				}
-//				contador ++;
-//
-//				
-//			}
-			
-			System.out.println(movingViolationsQueue.size());
-			
-			for(VOMovingViolation s: movingViolationsQueue){
-				if(contador == numeroVerificar){
-					System.out.println(s);
-					muestra[agregar] = s;
-					agregar++;
-					
-					if(agregar<n) numeroVerificar = posiciones[agregar];
-					else termino = true;
+			// Agrega y aumenta el contador 
+			// si no se encuentra ya random en el arreglo
+			if (indDeRandom == 0 || posiciones[indDeRandom - 1] < random) {
+				posiciones[contador] = random;
+				for (int i = contador; i > indDeRandom; i--) {
+					temp = posiciones[i];
+					posiciones[i] = posiciones[i-1];
+					posiciones[i-1] = temp;
 				}
 				contador ++;
 			}
-
 		}
+		long finTimePosGen = System.currentTimeMillis();
+		System.out.println("En generarse las posiciones se usaron " + (finTimePosGen - initTimePosGen) + "milis");
+		
+		
+		contador = 0;
+		int agregar = 0;
+		int numeroVerificar = posiciones[agregar];
+		boolean termino = false;
+//		while(iterator.hasNext() && !termino){
+//			
+//			if(contador == numeroVerificar){
+//				muestra[agregar] = iterator.next();
+//				agregar++;
+//				
+//				if(agregar<n) numeroVerificar = posiciones[agregar];
+//				else termino = true;
+//			}
+//			contador ++;
+////				
+//		}
+		
+		//System.out.println(movingViolationsQueue.size());
+		long initTimeCargando = System.currentTimeMillis();
+		for(VOMovingViolation s: movingViolationsQueue){
+			if(contador == numeroVerificar){
+				//System.out.println(s);
+				muestra[agregar] = s;
+				agregar++;
+				
+				if(agregar<n) numeroVerificar = posiciones[agregar];
+				else termino = true;
+			}
+			contador ++;
+		}
+		long finTimeCargando = System.currentTimeMillis();
+		System.out.println("En cargar la muestra se usaron " + (finTimeCargando - initTimeCargando) + "milis");
+		
+		
 		System.out.println("Datos de la muestra: primer el, segundo, ultimo y tamanio");
 		System.out.println(muestra[0]);
 		System.out.println(muestra[1]);
