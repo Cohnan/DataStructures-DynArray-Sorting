@@ -2,6 +2,7 @@ package controller;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import com.opencsv.CSVReader;
@@ -11,7 +12,6 @@ import model.util.Sort;
 import model.vo.VOMovingViolation;
 import view.MovingViolationsManagerView;
 
-@SuppressWarnings("unused")
 public class Controller {
 
 	public static final String[] movingViolationsFilePaths = new String[] {"data/Moving_Violations_Issued_in_January_2018.csv", "data/Moving_Violations_Issued_in_February_2018.csv", "data/Moving_Violations_Issued_in_March_2018.csv"};
@@ -74,11 +74,6 @@ public class Controller {
 			}
 			
 			for (int contador : contadores) suma += contador;
-			/*System.out.println("  ----------Informaci�n Sobre la Carga------------------  ");
-			for (int i = 0; i < contadores.length; i++) {
-				System.out.println("Infracciones Mes " + (i+1)+": " + contadores[i]);
-			}
-			System.out.println("Total Infracciones Cuatrisemetre: " + suma);*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,11 +109,28 @@ public class Controller {
 	public Comparable<VOMovingViolation> [ ] generarMuestra( int n )
 	{
 		muestra = new Comparable[ n ];
-					
-		// TODO Llenar la muestra aleatoria con los datos guardados en la estructura de datos
+		Integer[] posiciones = new Integer[n];
+		
+		for (int i = 0; i < n; i++) posiciones[i]= (int) Math.random()*(n-1);
+		Sort.ordenarQuickSort(posiciones);
+		System.out.println(posiciones[0] +" "+ posiciones[1] +" "+ posiciones[n-1]);
+		
+		Iterator<VOMovingViolation> iterador = movingViolationsQueue.iterator();
+		int posInfAct = -1;
+		int totalAgregados = 0;
+		VOMovingViolation infraccionActual;
+		while (iterador.hasNext() && totalAgregados < n) {
+			infraccionActual = iterador.next();
+			posInfAct += 1;
+			
+			if (posiciones[totalAgregados].equals(posInfAct)) {
+				muestra[totalAgregados] = infraccionActual;
+				totalAgregados += 1;
+				System.out.println("ObjectId: " + infraccionActual.objectId()+ ", posicion: " + posInfAct );
+			}
+		}
 		
 		return muestra;
-		
 	}
 	
 	/**

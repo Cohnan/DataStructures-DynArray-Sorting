@@ -60,6 +60,9 @@ public class Queue<T extends Comparable<T>> implements IQueue<T> {
 	/**
 	 * agrega un elemento a la cola
 	 */
+	/**
+	 * agrega un elemento a la cola
+	 */
 	public void enqueue(T t) {
 		Nodo<T> nuevo = new Nodo<>(t);
 		if(size == 0) {
@@ -70,6 +73,7 @@ public class Queue<T extends Comparable<T>> implements IQueue<T> {
 			ultimo.cambiarSiguiente(nuevo);
 			ultimo = nuevo;
 		}
+		//System.out.println("se agrego " + t);
 		size += 1;
 
 	}
@@ -79,27 +83,11 @@ public class Queue<T extends Comparable<T>> implements IQueue<T> {
 	 */
 	public T dequeue() {
 		if (size == 0) return null;
-		if (size == 1) {
-			size = 0;
-			Nodo<T> auxiliar = first;
-			first = null;
-			ultimo = null;
-			return auxiliar.darObjeto();
-		}
-
-		// Referencia al penultimo nodo actual
-		Nodo<T> penultimoViejo = first;
-		while(penultimoViejo.darSiguiente() != ultimo) {
-			penultimoViejo = penultimoViejo.darSiguiente();
-		}
-
-		// Eliminacion de referencia al actual nodo ultimo
-		T datoViejo = ultimo.darObjeto();
-		penultimoViejo.cambiarSiguiente(null);
-		ultimo = null;
-
+		T datoRemovido = first.darObjeto();
+		first = first.darSiguiente();
+		
 		size--;
-		return datoViejo;
+		return datoRemovido;
 	}
 	
 	public void sort(Queue<T> cola, Comparator<T> comparador, boolean descendente) {

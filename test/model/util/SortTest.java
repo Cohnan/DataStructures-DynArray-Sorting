@@ -57,7 +57,7 @@ public class SortTest {
 			Sort.ordenarShellSort(datos);
 			
 			for (int i = 0; i < datos.length; i++) {
-				assertTrue(datos[i].equals(datosOrdenados[i]));
+				assertTrue("Falla el algoritmo para el escenario " + i, datos[i].equals(datosOrdenados[i]));
 			}
 		}
 	}
@@ -77,7 +77,7 @@ public class SortTest {
 			Sort.ordenarMergeSort(datos);
 			
 			for (int i = 0; i < datos.length; i++) {
-				assertTrue(datos[i].equals(datosOrdenados[i]));
+				assertTrue("Falla el algoritmo para el escenario " + i, datos[i].equals(datosOrdenados[i]));
 			}
 		}
 	}
@@ -97,7 +97,7 @@ public class SortTest {
 			Sort.ordenarQuickSort(datos);
 			
 			for (int i = 0; i < datos.length; i++) {
-				assertTrue(datos[i].equals(datosOrdenados[i]));
+				assertTrue("Falla el algoritmo para el escenario " + i, datos[i].equals(datosOrdenados[i]));
 			}
 		}
 	}
