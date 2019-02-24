@@ -17,14 +17,14 @@ import view.MovingViolationsManagerView;
 public class Controller {
 
 	public static final String[] movingViolationsFilePaths = new String[] {"data/Moving_Violations_Issued_in_January_2018.csv", "data/Moving_Violations_Issued_in_February_2018.csv", "data/Moving_Violations_Issued_in_March_2018.csv"};
-	
+
 	private MovingViolationsManagerView view;
-	
+
 	private IQueue<VOMovingViolation> movingViolationsQueue;
 	private IStack<VOMovingViolation> movingViolationsStack;
-	
+
 	// TODO Definir las estructuras de datos para cargar las infracciones del periodo definido
-	
+
 	// Muestra obtenida de los datos cargados 
 	Comparable<VOMovingViolation> [ ] muestra;
 
@@ -33,7 +33,7 @@ public class Controller {
 
 	public Controller() {
 		view = new MovingViolationsManagerView();
-		
+
 		movingViolationsQueue = null;
 		movingViolationsStack = null;
 	}
@@ -46,16 +46,16 @@ public class Controller {
 	 */
 	public int loadMovingViolations() {
 		// TODO Los datos de los archivos deben guardarse en la Estructura de Datos definida
-		
+
 		CSVReader reader = null;
-		
+
 		// Contadores de infracciones en cada mes de los archivos a cargar
 		int[] contadores = new int[movingViolationsFilePaths.length];
 		int fileCounter = 0;
 		int suma = 0;
 		try {
 			movingViolationsQueue = new Queue<VOMovingViolation>();
-			
+
 			for (String filePath : movingViolationsFilePaths) {
 				reader = new CSVReader(new FileReader(filePath));
 				String[] headers = reader.readNext();
@@ -68,20 +68,20 @@ public class Controller {
 				}
 				// Carga de las infracciones a la cola, teniendo en cuenta el formato del archivo
 				contadores[fileCounter] = 0;
-			    for (String[] row : reader) {
-			    	movingViolationsQueue.enqueue(new VOMovingViolation(posiciones, row));
-			    	contadores[fileCounter] += 1;
-			    }
-			    fileCounter += 1;
+				for (String[] row : reader) {
+					movingViolationsQueue.enqueue(new VOMovingViolation(posiciones, row));
+					contadores[fileCounter] += 1;
+				}
+				fileCounter += 1;
 			}
-			
+
 			for (int contador : contadores) suma += contador;
 			/*System.out.println("  ----------Informaciï¿½n Sobre la Carga------------------  ");
 			for (int i = 0; i < contadores.length; i++) {
 				System.out.println("Infracciones Mes " + (i+1)+": " + contadores[i]);
 			}
 			System.out.println("Total Infracciones Cuatrisemetre: " + suma);*/
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -93,20 +93,20 @@ public class Controller {
 				}
 			}
 		}
-		
+
 		return suma;
 	}
-		
+
 	private int buscarArray(String[] array, String string) {
 		int i = 0;
-		
+
 		while (i < array.length) {
 			if (array[i].equals(string)) return i;
 			i += 1;
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * Generar una muestra aleatoria de tamaNo n de los datos leidos.
 	 * Los datos de la muestra se obtienen de las infracciones guardadas en la Estructura de Datos.
@@ -115,48 +115,75 @@ public class Controller {
 	 */
 	public Comparable<VOMovingViolation>[] generarMuestra( int n )
 	{
-		
-		muestra = new Comparable[ n ];	
-		
-		IQueue<Integer> numeros =  new Queue<>();
-		
-		int contador = 0;
-		int random = 0;
-		
-		while(contador<n){
-			random = (int)(Math.random()*240000+1);
-			System.out.println(random);
-			numeros.enqueue(random);
-			contador ++;
+
+		if(n>240000){
+			//handle
+		}
+		else
+		{
+
+			muestra = new Comparable[ n ];	
+			Integer[] posiciones  =  new Integer[n];
+
+			int contador = 0;
+			int random = 0;
+
+			while(contador<n){
+				random = (int)(Math.random()*movingViolationsQueue.size()+1);
+				posiciones[contador] = random;
+				contador ++;
+			}
+
+			//Ordenar los números
+			Sort.ordenarQuickSort(posiciones);
+
+			contador = 0;
+			int agregar = 0;
+			int numeroVerificar = posiciones[agregar];
+			boolean termino = false;
+			
+			Iterator<VOMovingViolation> iterator = movingViolationsQueue.iterator();
+
+//			while(iterator.hasNext() && !termino){
+//				
+//				if(contador == numeroVerificar){
+//					muestra[agregar] = iterator.next();
+//					agregar++;
+//					
+//					if(agregar<n) numeroVerificar = posiciones[agregar];
+//					else termino = true;
+//				}
+//				contador ++;
+//
+//				
+//			}
+			
+			System.out.println(movingViolationsQueue.size());
+			
+			for(VOMovingViolation s: movingViolationsQueue){
+				
+				if(contador == numeroVerificar){
+					System.out.println(s);
+					muestra[agregar] = s;
+					agregar++;
+					
+					if(agregar<n) numeroVerificar = posiciones[agregar];
+					else termino = true;
+				}
+				contador ++;
+			}
+
 		}
 
-	
-		//Ordenar los números
-		//Sort.ordenarMergeSort(numeros);
-		
-		
-		contador = 0;
-		int agregar = 0;
-		int numeroVerificar = numeros.dequeue();
-		
-		for(VOMovingViolation s: movingViolationsQueue){
-			if(contador == numeroVerificar){
-				muestra[agregar] = s;
-				agregar++;
-				numeroVerificar = numeros.dequeue();
-			}
-			contador ++;
-			
-		}
-		
-			
-		
+
 		// TODO Llenar la muestra aleatoria con los datos guardados en la estructura de datos
-		
+		System.out.println(muestra[0]);
+		System.out.println(muestra[1]);
+		System.out.println(muestra.length);
 		return muestra;
-		
+
 	}
-	
+
 	/**
 	 * Generar una copia de una muestra. Se genera un nuevo arreglo con los mismos elementos.
 	 * @param muestra - datos de la muestra original
@@ -169,16 +196,16 @@ public class Controller {
 		{    copia[i] = muestra[i];    }
 		return copia;
 	}
-	
+
 	/**
 	 * Ordenar datos aplicando el algoritmo ShellSort
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
 	 */
 	public void ordenarShellSort( Comparable<VOMovingViolation>[ ] datos ) {
-		
+
 		Sort.ordenarShellSort(datos);
 	}
-	
+
 	/**
 	 * Ordenar datos aplicando el algoritmo MergeSort
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
@@ -208,143 +235,143 @@ public class Controller {
 		for (int i = 0; i < datos.length; i++) auxiliar[i] = datos[n-i-1];
 		datos = auxiliar;
 	}
-	
+
 	public void run() {
 		long startTime;
 		long endTime;
 		long duration;
-		
+
 		int nDatos = 0;
 		int nMuestra = 0;
-		
+
 		Scanner sc = new Scanner(System.in);
 		boolean fin = false;
-		
+
 		while(!fin)
 		{
 			view.printMenu();
-			
+
 			int option = sc.nextInt();
-			
+
 			switch(option)
 			{
-				case 1:
-					// Cargar infracciones
-					nDatos = this.loadMovingViolations();
-					view.printMensage("Numero infracciones cargadas:" + nDatos);
-					break;
-					
-				case 2:
-					// Generar muestra de infracciones a ordenar
-					view.printMensage("Dar tamaNo de la muestra: ");
-					nMuestra = sc.nextInt();
-					muestra = this.generarMuestra( nMuestra );
-					view.printMensage("Muestra generada");
-					break;
-					
-				case 3:
-					// Mostrar los datos de la muestra actual (original)
-					if ( nMuestra > 0 && muestra != null && muestra.length == nMuestra )
-					{    
-						view.printDatosMuestra( nMuestra, muestra);
-					}
-					else
-					{
-						view.printMensage("Muestra invalida");
-					}
-					break;
+			case 1:
+				// Cargar infracciones
+				nDatos = this.loadMovingViolations();
+				view.printMensage("Numero infracciones cargadas:" + nDatos);
+				break;
 
-				case 4:
-					// Aplicar ShellSort a una copia de la muestra
-					if ( nMuestra > 0 && muestra != null && muestra.length == nMuestra )
-					{
-						muestraCopia = this.obtenerCopia(muestra);
-						startTime = System.currentTimeMillis();
-						this.ordenarShellSort(muestraCopia);
-						endTime = System.currentTimeMillis();
-						duration = endTime - startTime;
-						view.printMensage("Ordenamiento generado en una copia de la muestra");
-						view.printMensage("Tiempo de ordenamiento ShellSort: " + duration + " milisegundos");
-					}
-					else
-					{
-						view.printMensage("Muestra invalida");
-					}
-					break;
-					
-				case 5:
-					// Aplicar MergeSort a una copia de la muestra
-					if ( nMuestra > 0 && muestra != null && muestra.length == nMuestra )
-					{
-						muestraCopia = this.obtenerCopia(muestra);
-						startTime = System.currentTimeMillis();
-						this.ordenarMergeSort(muestraCopia);
-						endTime = System.currentTimeMillis();
-						duration = endTime - startTime;
-						view.printMensage("Ordenamiento generado en una copia de la muestra");
-						view.printMensage("Tiempo de ordenamiento MergeSort: " + duration + " milisegundos");
-					}
-					else
-					{
-						view.printMensage("Muestra invalida");
-					}
-					break;
-											
-				case 6:
-					// Aplicar QuickSort a una copia de la muestra
-					if ( nMuestra > 0 && muestra != null && muestra.length == nMuestra )
-					{
-						muestraCopia = this.obtenerCopia(muestra);
-						startTime = System.currentTimeMillis();
-						this.ordenarQuickSort(muestraCopia);
-						endTime = System.currentTimeMillis();
-						duration = endTime - startTime;
-						view.printMensage("Ordenamiento generado en una copia de la muestra");
-						view.printMensage("Tiempo de ordenamiento QuickSort: " + duration + " milisegundos");
-					}
-					else
-					{
-						view.printMensage("Muestra invalida");
-					}
-					break;
-											
-				case 7:
-					// Mostrar los datos de la muestra ordenada (muestra copia)
-					if ( nMuestra > 0 && muestraCopia != null && muestraCopia.length == nMuestra )
-					{    view.printDatosMuestra( nMuestra, muestraCopia);    }
-					else
-					{
-						view.printMensage("Muestra Ordenada invalida");
-					}
-					break;
-					
-				case 8:	
-					// Una muestra ordenada se convierte en la muestra a ordenar
-					if ( nMuestra > 0 && muestraCopia != null && muestraCopia.length == nMuestra )
-					{    
-						muestra = muestraCopia;
-						view.printMensage("La muestra ordenada (copia) es ahora la muestra de datos a ordenar");
-					}
-					break;
+			case 2:
+				// Generar muestra de infracciones a ordenar
+				view.printMensage("Dar tamaNo de la muestra: ");
+				nMuestra = sc.nextInt();
+				muestra = this.generarMuestra( nMuestra );
+				view.printMensage("Muestra generada");
+				break;
 
-				case 9:
-					// Invertir la muestra a ordenar
-					if ( nMuestra > 0 && muestra != null && muestra.length == nMuestra )
-					{    
-						this.invertirMuestra(muestra);
-						view.printMensage("La muestra de datos a ordenar fue invertida");
-					}
-					else
-					{
-						view.printMensage("Muestra invalida");
-					}
+			case 3:
+				// Mostrar los datos de la muestra actual (original)
+				if ( nMuestra > 0 && muestra != null && muestra.length == nMuestra )
+				{    
+					view.printDatosMuestra( nMuestra, muestra);
+				}
+				else
+				{
+					view.printMensage("Muestra invalida");
+				}
+				break;
 
-					break;
-					
-				case 10:	
-					fin=true;
-					sc.close();
-					break;
+			case 4:
+				// Aplicar ShellSort a una copia de la muestra
+				if ( nMuestra > 0 && muestra != null && muestra.length == nMuestra )
+				{
+					muestraCopia = this.obtenerCopia(muestra);
+					startTime = System.currentTimeMillis();
+					this.ordenarShellSort(muestraCopia);
+					endTime = System.currentTimeMillis();
+					duration = endTime - startTime;
+					view.printMensage("Ordenamiento generado en una copia de la muestra");
+					view.printMensage("Tiempo de ordenamiento ShellSort: " + duration + " milisegundos");
+				}
+				else
+				{
+					view.printMensage("Muestra invalida");
+				}
+				break;
+
+			case 5:
+				// Aplicar MergeSort a una copia de la muestra
+				if ( nMuestra > 0 && muestra != null && muestra.length == nMuestra )
+				{
+					muestraCopia = this.obtenerCopia(muestra);
+					startTime = System.currentTimeMillis();
+					this.ordenarMergeSort(muestraCopia);
+					endTime = System.currentTimeMillis();
+					duration = endTime - startTime;
+					view.printMensage("Ordenamiento generado en una copia de la muestra");
+					view.printMensage("Tiempo de ordenamiento MergeSort: " + duration + " milisegundos");
+				}
+				else
+				{
+					view.printMensage("Muestra invalida");
+				}
+				break;
+
+			case 6:
+				// Aplicar QuickSort a una copia de la muestra
+				if ( nMuestra > 0 && muestra != null && muestra.length == nMuestra )
+				{
+					muestraCopia = this.obtenerCopia(muestra);
+					startTime = System.currentTimeMillis();
+					this.ordenarQuickSort(muestraCopia);
+					endTime = System.currentTimeMillis();
+					duration = endTime - startTime;
+					view.printMensage("Ordenamiento generado en una copia de la muestra");
+					view.printMensage("Tiempo de ordenamiento QuickSort: " + duration + " milisegundos");
+				}
+				else
+				{
+					view.printMensage("Muestra invalida");
+				}
+				break;
+
+			case 7:
+				// Mostrar los datos de la muestra ordenada (muestra copia)
+				if ( nMuestra > 0 && muestraCopia != null && muestraCopia.length == nMuestra )
+				{    view.printDatosMuestra( nMuestra, muestraCopia);    }
+				else
+				{
+					view.printMensage("Muestra Ordenada invalida");
+				}
+				break;
+
+			case 8:	
+				// Una muestra ordenada se convierte en la muestra a ordenar
+				if ( nMuestra > 0 && muestraCopia != null && muestraCopia.length == nMuestra )
+				{    
+					muestra = muestraCopia;
+					view.printMensage("La muestra ordenada (copia) es ahora la muestra de datos a ordenar");
+				}
+				break;
+
+			case 9:
+				// Invertir la muestra a ordenar
+				if ( nMuestra > 0 && muestra != null && muestra.length == nMuestra )
+				{    
+					this.invertirMuestra(muestra);
+					view.printMensage("La muestra de datos a ordenar fue invertida");
+				}
+				else
+				{
+					view.printMensage("Muestra invalida");
+				}
+
+				break;
+
+			case 10:	
+				fin=true;
+				sc.close();
+				break;
 			}
 		}
 	}

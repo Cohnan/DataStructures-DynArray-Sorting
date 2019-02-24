@@ -68,17 +68,18 @@ public class Sort {
 	
 	private static void ordenarMergeSort(Comparable[]datos , Comparable[] auxiliar, int min, int max){
 		
-		
-		//Caso en el que este mal compuesto el arreglo
-		if(max<=min)return;
-		
+		if(max<=min){
+			
+		}
+		else
+		{
 		//Se encuentra la mitad
 		int med = max + (max-min)/2;
 		//Se resuelve recurisvamente cada mitad
 		ordenarMergeSort(datos, auxiliar,min,med);
 		ordenarMergeSort(datos, auxiliar, med +1 ,max);
 		merge(datos,auxiliar,min,med,max);
-
+		}
 		
 	}
 	
