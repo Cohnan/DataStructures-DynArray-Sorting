@@ -1,5 +1,6 @@
 package model.util;
 import java.lang.Math;
+import java.util.Random;
 
 public class Sort {
 	
@@ -112,8 +113,7 @@ public class Sort {
 	 */
 	public static void ordenarQuickSort( Comparable[ ] datos ) {
 		// Desordenar
-		for (int i = 0; i < datos.length/2; i++) exchange(datos, (int) Math.random()*(datos.length-1), (int) Math.random()*(datos.length-1));
-		
+		StdRandom.shuffle(datos);
 		ordenarQuickSort(datos, 0, datos.length-1);
 	}
 	
