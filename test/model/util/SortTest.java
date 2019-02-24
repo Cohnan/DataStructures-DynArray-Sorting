@@ -2,7 +2,6 @@ package model.util;
 
 import static org.junit.Assert.*;
 import java.util.Arrays;
-import org.junit.Test;
 
 import junit.framework.TestCase;
 import model.util.Sort;
@@ -12,7 +11,7 @@ public class SortTest extends TestCase {
 	 * Constantes
 	 */
 	// Tamano de la muestra
-	private final int N = 1000;
+	private final int N = 1000000;
 	// Numero de escenarios de prueba
 	private final int totalEscenarios = 3;
 	

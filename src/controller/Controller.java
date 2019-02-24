@@ -323,6 +323,9 @@ public class Controller {
 
 			case 6:
 				// Aplicar QuickSort a una copia de la muestra
+				
+	
+				
 				if ( nMuestra > 0 && muestra != null && muestra.length == nMuestra )
 				{
 					muestraCopia = this.obtenerCopia(muestra);
@@ -341,6 +344,8 @@ public class Controller {
 
 			case 7:
 				// Mostrar los datos de la muestra ordenada (muestra copia)
+				
+				
 				if ( nMuestra > 0 && muestraCopia != null && muestraCopia.length == nMuestra )
 				{    view.printDatosMuestra( nMuestra, muestraCopia);    }
 				else
