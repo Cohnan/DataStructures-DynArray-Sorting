@@ -11,7 +11,7 @@ public class SortTest {
 	 * Constantes
 	 */
 	// Tamano de la muestra
-	private final int N = 1000;
+	private final int N = 300000;
 	// Numero de escenarios de prueba
 	private final int totalEscenarios = 3;
 	
@@ -31,11 +31,11 @@ public class SortTest {
 		switch(n) {
 		// Escenario: muestra ya ordenada
 		case 0:
-			for(int i = 0; i < N; i++) datos[i] = (Comparable) i;
+			for(int i = 0; i < N; i++) datos[i] = (Comparable) (i/2);
 			break;
 		// Escenarios: muestra totalmente desordenada
 		case 1:
-			for(int i = 0; i < N; i++) datos[i] = (Comparable) (N-1-i);
+			for(int i = 0; i < N; i++) datos[i] = (Comparable) ((N-1-i)/2);
 		// Escenario: muestra aleatoria
 		case 2:
 			for(int i = 0; i < N; i++) datos[i] = (Comparable) Math.random();

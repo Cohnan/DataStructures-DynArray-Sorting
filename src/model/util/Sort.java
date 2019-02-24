@@ -112,13 +112,14 @@ public class Sort {
 	 */
 	public static void ordenarQuickSort( Comparable[ ] datos ) {
 		// Desordenar
-		for (int i = 0; i < datos.length/2; i++) exchange(datos, (int) Math.random()*(datos.length-1), (int) Math.random()*(datos.length-1));
+		for (int j = 100; j < 1; j++) {for (int i = 0; i < datos.length; i++) exchange(datos, i, (int) Math.random()*(datos.length-1));}
 		
 		ordenarQuickSort(datos, 0, datos.length-1);
 	}
 	
 	private static void ordenarQuickSort( Comparable[ ] datos, int min, int max) {
 		if (min >= max) return;
+		if (min + 1 == max) {if (less(datos[max], datos[min])) exchange(datos, min, max); return;}
 		
 		Comparable ref = datos[min];
 		
@@ -128,11 +129,11 @@ public class Sort {
 		while (true) {
 			// Encontrar la posicion actual donde termina la particion de numeros menores o iguales
 			while (indLastLeq < max && datos[indLastLeq + 1].compareTo(ref) <= 0) indLastLeq += 1;
-			if (indLastLeq + 1 == indFirstGr) break;
+			if (indLastLeq + 1 >= indFirstGr) break;
 			
 			// Encontrar la posicion actual donde empieza la particion de numeros mayores
-			while (indFirstGr > (min+1) && datos[indFirstGr - 1].compareTo(ref) > 0) indFirstGr -= 1;
-			if (indLastLeq + 1 == indFirstGr) break;
+			while (indFirstGr > min && datos[indFirstGr - 1].compareTo(ref) > 0) indFirstGr -= 1;
+			if (indLastLeq + 1 >= indFirstGr) break;
 			
 			// En caso de no cruzarse las dos partes del array, hacer el intercambio de los
 			// elementos que interrumpen las 2 partes del array
