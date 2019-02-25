@@ -123,7 +123,7 @@ public class Controller {
 		Integer[] posiciones  =  new Integer[n];
 		int contador;
 		
-		/*
+		
 		// Generar posiciones
 		long initTimePosGen = System.currentTimeMillis();
 		for (int i = 0; i < n; i++){
@@ -137,7 +137,8 @@ public class Controller {
 				while (posiciones[i] == posiciones[i+1]) posiciones[i] = (int)(Math.random() * movingViolationsQueue.size()-1);
 			}
 		}
-		*/
+		/*
+		// Genera posiciones sesgadas 
 		// Generar posiciones
 		contador = 0;
 		int random = 0;
@@ -164,26 +165,24 @@ public class Controller {
 				contador ++;
 			}
 		}
-		
+		*/
 		///////////////////////////////////////////////////////////////////////////
 		long finTimePosGen = System.currentTimeMillis();
 		System.out.println("En generarse las posiciones se usaron " + (finTimePosGen - initTimePosGen) + "milis");
-
-		/*for (int i = 0; i < n; i++) {
+		/*
+		for (int i = 0; i < n; i++) {
 			System.out.print(posiciones[i]+" ");
 		}System.out.println(": Posiciones");*/
 		//
 		// Cargar Datos a la muestra
-		Iterator<VOMovingViolation> iterador = movingViolationsQueue.iterator();
 		contador = 0;
 		int agregar = 0;
 		int numeroVerificar = posiciones[agregar];
 		boolean termino = false;
 		long initTimeCargando = System.currentTimeMillis();
-		while(iterador.hasNext() && !termino){
-
+		for(VOMovingViolation infraccion : movingViolationsQueue){
 			if(contador == numeroVerificar){
-				muestra[agregar] = iterador.next();
+				muestra[agregar] = infraccion;
 				agregar++;
 
 				if(agregar<n) numeroVerificar = posiciones[agregar];
