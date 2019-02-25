@@ -1,12 +1,11 @@
 package model.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
-import model.util.Sort;
+import org.junit.Test;
 
-public class SortTest extends TestCase {
+public class SortTest {
 	/*
 	 * Constantes
 	 */
@@ -45,6 +44,7 @@ public class SortTest extends TestCase {
 	/**
 	 * Prueba de ShellSort
 	 */
+	@Test
 	public void testShellSort() {
 		Comparable[] datosOrdenados;
 				
@@ -64,7 +64,7 @@ public class SortTest extends TestCase {
 	/**
 	 * Prueba de MergeSort
 	 */
-
+	@Test
 	public void testMergeSort() {
 		Comparable[] datosOrdenados;
 				
@@ -84,6 +84,7 @@ public class SortTest extends TestCase {
 	/**
 	 * Prueba de QuickSort
 	 */
+	@Test
 	public void testQuickSort() {
 		Comparable[] datosOrdenados;
 				

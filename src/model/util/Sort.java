@@ -1,5 +1,6 @@
 package model.util;
 import java.lang.Math;
+import java.util.Random;
 
 public class Sort {
 	
@@ -12,6 +13,7 @@ public class Sort {
 	 * Ordenar datos aplicando el algoritmo ShellSort
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
 	 */
+
 	public static void ordenarShellSort( Comparable[ ] datos ) {
 		// Esta es una implementacion hecha con el proposito de entender shellsort, que permite
 		// el uso de diferentes secuencias con facilidad. La unica diferencia en uso de recursos
@@ -44,6 +46,9 @@ public class Sort {
 		
 		return lista;
 	}
+	
+
+	
 	/*
 	 * **********************************************************************************************
 	 */
@@ -112,8 +117,8 @@ public class Sort {
 	 */
 	public static void ordenarQuickSort( Comparable[ ] datos ) {
 		// Desordenar
-		for (int i = 0; i < datos.length/2; i++) exchange(datos, (int) Math.random()*(datos.length-1), (int) Math.random()*(datos.length-1));
 		
+		StdRandom.shuffle(datos);
 		ordenarQuickSort(datos, 0, datos.length-1);
 	}
 	
@@ -173,6 +178,12 @@ public class Sort {
 		Comparable temp = datos[i];
 		datos[i] = datos[j];
 		datos[j] = temp;
+	}
+	
+	public static boolean isSorted(Comparable[] datos) {
+		for (int i = 0; i < datos.length-1; i++)
+			if (less(datos[i+1], datos[i])) return false;
+		return true;
 	}
 
 }
