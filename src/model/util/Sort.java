@@ -179,5 +179,11 @@ public class Sort {
 		datos[i] = datos[j];
 		datos[j] = temp;
 	}
+	
+	public static boolean isSorted(Comparable[] datos) {
+		for (int i = 0; i < datos.length-1; i++)
+			if (less(datos[i+1], datos[i])) return false;
+		return true;
+	}
 
 }

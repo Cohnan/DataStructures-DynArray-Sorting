@@ -121,15 +121,25 @@ public class Controller {
 		}
 		muestra = new Comparable[ n ];	
 		Integer[] posiciones  =  new Integer[n];
-
-		long initTimeRan = System.currentTimeMillis();
+		int contador;
+		
+		/*
+		// Generar posiciones
+		long initTimePosGen = System.currentTimeMillis();
 		for (int i = 0; i < n; i++){
-			Math.random();
+			posiciones[i] = (int)(Math.random() * (movingViolationsQueue.size()-1));
 		}
-		long finTimeRan = System.currentTimeMillis();
-		System.out.println("En generarse "+n+" numeros aleatorios se usaron " + (finTimeRan - initTimeRan) + "milis");
-
-		int contador = 0;
+		
+		Sort.ordenarQuickSort(posiciones);
+		while(!Sort.isSorted(posiciones)) {
+			Sort.ordenarShellSort(posiciones);
+			for (int i = 0; i < n-1; i++) {
+				while (posiciones[i] == posiciones[i+1]) posiciones[i] = (int)(Math.random() * movingViolationsQueue.size()-1);
+			}
+		}
+		*/
+		// Generar posiciones
+		contador = 0;
 		int random = 0;
 		int indDeRandom;
 		int temp;
@@ -154,12 +164,16 @@ public class Controller {
 				contador ++;
 			}
 		}
+		
+		///////////////////////////////////////////////////////////////////////////
 		long finTimePosGen = System.currentTimeMillis();
 		System.out.println("En generarse las posiciones se usaron " + (finTimePosGen - initTimePosGen) + "milis");
 
-
-
-
+		/*for (int i = 0; i < n; i++) {
+			System.out.print(posiciones[i]+" ");
+		}System.out.println(": Posiciones");*/
+		//
+		// Cargar Datos a la muestra
 		Iterator<VOMovingViolation> iterador = movingViolationsQueue.iterator();
 		contador = 0;
 		int agregar = 0;
@@ -236,8 +250,11 @@ public class Controller {
 	public void invertirMuestra( Comparable[ ] datos ) {
 		int n = datos.length;
 		Comparable[] auxiliar = new Comparable[n];
+		// Hacer copia invertida
 		for (int i = 0; i < datos.length; i++) auxiliar[i] = datos[n-i-1];
-		datos = auxiliar;
+		// Pegar datos al arreglo original
+		for (int i = 0; i < datos.length; i++) datos[i] = auxiliar[i];
+		
 	}
 
 	public void run() {
