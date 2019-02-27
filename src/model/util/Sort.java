@@ -39,7 +39,7 @@ public class Sort {
 	
 	private static int[] giveSequence(int n) {
 		// Usamos la secuencia 1, 4, 13, ...
-		if (n < 4) return [1];
+		if (n < 4) return new int[] {1};
 		// Esto asegura que para el h maximo, cada subarray que ea h-sorted tenga longitud al menos 3
 		int k = (int)(Math.log(2*n + 1)/Math.log(3) - 1);
 		int[] lista = new int[k];
