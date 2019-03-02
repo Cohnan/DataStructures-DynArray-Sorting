@@ -1,15 +1,8 @@
 package model.data_structures;
-//import java.io.*;
 
+import java.util.Iterator;
 
-/**
- * 2019-01-23
- * Estructura de Datos Arreglo Dinamico de Ks.
- * El arreglo al llenarse (llegar a su maxima capacidad) debe aumentar su capacidad.
- * @author Fernando De la Rosa
- *
- */
-public class ArregloDinamico<K extends Comparable<K>> implements IArregloDinamico<K> {
+public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamico<T> {
 		/**
 		 * Capacidad maxima del arreglo
 		 */
@@ -21,7 +14,7 @@ public class ArregloDinamico<K extends Comparable<K>> implements IArregloDinamic
         /**
          * Arreglo de elementos de tamaNo maximo
          */
-        private K[] elementos;
+        private T[] elementos;
 
         /**
          * Construir un arreglo con la capacidad maxima inicial.
@@ -29,91 +22,111 @@ public class ArregloDinamico<K extends Comparable<K>> implements IArregloDinamic
          */
 		public ArregloDinamico( int max )
         {
-               elementos = (K[]) new Comparable[max];
+               elementos = (T[]) new Comparable[max];
                tamanoMax = max;
                tamanoAct = 0;
         }
-        
-		public void agregar( K dato )
+		
+		/**
+         * Construir un arreglo con una capacidad maxima temporal de 2
+         */
+		public ArregloDinamico()
         {
-               if ( tamanoAct == tamanoMax )
-               {  // caso de arreglo lleno (aumentar tamaNo)
-                    tamanoMax = 2 * tamanoMax;
-                    K [ ] copia = elementos;
-                    elementos = (K[]) new Comparable[tamanoMax];
-                    for ( int i = 0; i < tamanoAct; i++)
-                    {
-                     	 elementos[i] = copia[i];
-                    } 
-            	    System.out.println("Arreglo lleno: " + tamanoAct + " - Arreglo duplicado: " + tamanoMax);
-               }	
-               elementos[tamanoAct] = dato;
-               tamanoAct++;
-       }
-
+               elementos = (T[]) new Comparable[2];
+               tamanoMax = 2;
+               tamanoAct = 0;
+        }
+        
+		public void agregar( T dato )
+        {
+			if (dato == null) throw new IllegalArgumentException("No se puede agregar un elemento nulo al arreglo");
+			
+			// caso de arreglo lleno (aumentar tamaNo)
+            if ( tamanoAct == tamanoMax ) {
+            	tamanoMax = 2 * tamanoMax;
+                T[] copia = elementos;
+                elementos = (T[]) new Comparable[tamanoMax];
+                for ( int i = 0; i < tamanoAct; i++) {
+                	elementos[i] = copia[i];
+                } 
+            	    //System.out.println("Arreglo lleno: " + tamanoAct + " - Arreglo duplicado: " + tamanoMax);
+            }
+            elementos[tamanoAct] = dato;
+            tamanoAct++;
+        }
+		
+		public void cambiarEnPos(int i, T dato) {
+			if (i < 0 || tamanoAct <= i ) throw new IllegalArgumentException("No existe tal posicion en el arreglo.");
+			elementos[i] = dato;
+		}
+		
 		public int darTamano() {
 			return tamanoAct;
 		}
 
-		public K darElemento(int i) {
+		public T darObjeto(int i) {
 			if (i >= tamanoAct) return null;
 			return elementos[i];
 		}
 
-		public K buscar(K dato) {			
+		public int buscar(T dato) {
+			
 			for (int i = 0; i < tamanoAct; i++) {
-				if (dato.compareTo(elementos[i]) == 0) return dato;
-			}
-			return null;
-		}
-
-		public K eliminar(K dato) {
-			
-			// Contendra los datos diferentes de dato compactados	
-			K[] temp = (K[]) new Comparable[tamanoMax];
-			
-			// Indica si se elimino algun dato del arreglo. Podria usar buscar(), pero es innecesario
-			boolean encontrado = false;
-			// Indicara el tamano del nuevo array
-			int tempTamanoAct = 0;
-			
-			// Agrega datos de forma compacta a temp
-			int j = 0; // Indice para el nuevo array
-			for (int i = 0; i < tamanoAct; i++) {
-				if (dato.compareTo(elementos[i]) != 0){
-					temp[j] = elementos[i];
-					j++;
-					tempTamanoAct++;
-				} else {
-					encontrado = true;
+				if (dato.compareTo(elementos[i]) == 0) {
+					return i;
 				}
 			}
 			
-			// Previene calculos innecesarios si no se eliminan datos
-			if (!encontrado) return null;
+			return -1;
+		}
+
+		public T eliminar(T dato) {
+			eliminarEnPos(buscar(dato));
 			
-			// Calculos para reducir el tamano total del array en caso de que se borren muchos datos.
-			int nEliminados = tamanoAct - tempTamanoAct;
+			return dato;
+		}
+		
+		public T eliminarEnPos(int n) {
 			
-			// Caso especial: se borran todos los elementos
-			if (nEliminados == tamanoAct) {
-				elementos = (K[]) new Comparable[1];
-				tamanoAct = 0;
-				tamanoMax = 1;
+			if (n < 0 || n >= tamanoAct) return null; //throw new IllegalArgumentException("No existe tal posicion en el arreglo.");
+			T dato = elementos[n];
+			
+			// Contraer datos
+			for (int k = n + 1; k < tamanoAct; k++) {
+				elementos[k-1] = elementos[k];
+			} elementos[tamanoAct - 1] = null;
+			
+			// Escrito asi por posible generalizacion
+			int nEliminados = 1;
+			tamanoAct = tamanoAct - nEliminados;
+			
+			// Caso especial: se eliminaron todos los elementos
+			if (tamanoAct == 0) {
+				elementos = (T[]) new Comparable[2];
+				tamanoMax = 2;
 				return dato;
 			}
+						
+			// Revalua el tamanoMax necesario para elementos
+			while (tamanoAct <= tamanoMax/4) tamanoMax = tamanoMax/4;
 			
-			// Revalua tamanoAct y el tamanoMax necesario para elementos
-			tamanoAct = tempTamanoAct;
-			while (tempTamanoAct <= tamanoMax/2) tamanoMax = tamanoMax/2;
-			
-			// Crea elementos de manera compacta con elementos restantes y tamano apropiado 
-			elementos = (K[]) new Comparable[tamanoMax];
-			for (int i = 0; i < tamanoAct; i++) {
-				elementos[i] = temp[i];
-			}
-			
-			//return "se eliminaron " + nEliminados + " veces el dato " + dato; //Regresa un mensaje informativo
 			return dato;
+		}
+
+		@Override
+		public Iterator<T> iterator() {
+			return new Iterator<T>() {
+				int iActual = 0;
+				@Override
+				public boolean hasNext() {
+					if (tamanoAct <= iActual) return false;
+					return true;
+				}
+
+				@Override
+				public T next() {
+					return elementos[iActual++];
+				}
+			};
 		}
 }

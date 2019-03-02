@@ -2,6 +2,8 @@ package model.util;
 import java.lang.Math;
 import java.util.Random;
 
+import model.data_structures.ArregloDinamico;
+
 public class Sort {
 	
 	/*
@@ -63,7 +65,7 @@ public class Sort {
 	 * Ordenar datos aplicando el algoritmo MergeSort
 	 * @param datos - conjunto de datos a ordenar (inicio) y conjunto de datos ordenados (final)
 	 */
-	public static void ordenarMergeSort( Comparable[ ] datos ) {
+	public static <T extends Comparable<T>>void ordenarMergeSort( ArregloDinamico<T> datos ) {
 		
 		//Bottom - Up
 		int N = datos.length;
