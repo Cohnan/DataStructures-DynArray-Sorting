@@ -115,14 +115,16 @@ public class ArregloDinamicoTest extends TestCase{
 			String dato;
 			int[] posiciones = new int[] {7, 3, 0}; // Orden descendente necesario
 			int i;
+			int eliminados = 0;
 			for (int k = 0; k < posiciones.length; k++) {
 				i = posiciones[k];
 				if (i < n) {
 					dato = arreglo.eliminarEnPos(i);
+					eliminados += 1;
 					assertTrue("El dato no es el correcto.", dato.equals("Elemento " + (i)));
-					assertTrue("El tamano del arreglo deberia ser " + (n-1-k), arreglo.darTamano() == (n-1-k));
+					assertTrue("El tamano del arreglo deberia ser " + (n-eliminados), arreglo.darTamano() == (n-eliminados));
 					if (i != n-1) {
-						assertTrue("El elemento en la posicion " + n + " deberia ser Elemento " + (i+1), arreglo.darObjeto(7).equals("Elemento " + (7+1)));
+						assertTrue("El elemento en la posicion " + i + " deberia ser Elemento " + (i+1), arreglo.darObjeto(i).equals("Elemento " + (i+1)));
 					}
 				}
 			}
